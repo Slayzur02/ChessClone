@@ -1,68 +1,62 @@
 import React, {Component} from 'react';
 
-import Grid from './components/grid';
-import Instructions from './components/instructions';
-import SweepOrFlag from './components/sweepOrFlag'
-
-const MyContext = React.createContext('hello');
+import Grid from './components/grid.js'
+import Instructions from './components/instructions.js'
 
 class App extends Component {
 	state = {
-		clickedBomb: false,
-		sweepOrFlag: 'sweep'
+		Won: false,
+		Lost: false,
 	}
 
-
-
-	sweep = ()=>{
+	winning = ()=>{
 		this.setState({
-		  sweepOrFlag: 'sweep',
-		})
-	}
-
-	flag = ()=>{
-		this.setState({
-		  sweepOrFlag: 'flag',
-		})
-	}
-
-	//Used to end the game. ClickedBomb is used to define what game is (in return)
-	endGame = () => {
-		this.setState({
-		  clickedBomb: true,
+		  Won: true,
 		});
 	}
 
-	retry = ()=>{
+	losing = ()=>{
 		this.setState({
-		  clickedBomb: false,
+		  Lost: true,
 		});
 	}
 
-	
+	reset = ()=>{
+		this.setState({
+		  Won: false,
+		  Lost: false,
+		});
+	}
+
 	render(){
-		var game;
-		if (!this.state.clickedBomb){
-			game = 
+		let grid
+	if (this.state.Won ===this.state.Lost){
+		grid = 
+		<div>
+			<Instructions/>
+			<Grid winning = {this.winning} losing = {this.losing}/>
+		</div>
+	}
+	else if (this.state.Won ===true){
+		grid = 
 			<div>
-			<MyContext.Provider value = {this.state.sweepOrFlag}>
-				<SweepOrFlag sweep = {this.sweep} flag = {this.flag}/>
-				<Grid endGame = {this.endGame} sweepOrFlagState = {this.state.sweepOrFlag} renderAgain = {this.state.clickedBomb}/>
-			</MyContext.Provider>
+				YOU'VE WON
+				<button onClick = {this.reset}>Try again?</button>
 			</div>
-		}
-		else {
-			game = <div >
-			<p className="text-2xl text-red-800 ">You've lost</p>
-			<button className = "bg-blue-600 text-white mt-3 text-4xl rounded  p-4" onClick = {this.retry}>Try again</button>
+	}
+	else if (this.state.Won === false && this.state.Lost === true){
+		grid = 
+			<div >
+				<div className = "text-2xl my-0">Nani?</div>
+				<div className = "text-6xl my-0">It appears that you suck</div>
+				<button className = "border-2 mb-4 p-2 border-gray-600 text-xl bg-red-200">Do nothing</button>
+				<br/>
+				<button className = "border-2 border-gray-600 p-2 text-xl bg-green-200" onClick = {this.reset}>You haven't witnessed my true power</button>
 			</div>
-
-
-		}
+	}
 	return (
 			<div className="text-center m-8 flex flex-col">
-					<Instructions/>
-					{game}
+					{grid}
 			</div>
 		
 		);

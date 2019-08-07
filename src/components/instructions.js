@@ -3,9 +3,9 @@ import React from 'react';
 const Instructions = ({ className }) => {
 	return (
 		<div className="flex flex-col w-full text-center text-lg mb-4">
-			<p>Press the blue button to check off the squares</p>
-			<p className="">Press the red button to flag bombed squares</p>
-			<p className="">400 squares, and 100 bombs. Good luck! </p>
+			<p>The X represents your knight</p>
+			<p className="">Move the knight through all the squares on the board without repeating a single square</p>
+			<p className="">If you can't, you lose. GOOD LUCK!</p>
 		</div>
 		);
 };
